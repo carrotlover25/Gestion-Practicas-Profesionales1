@@ -14,6 +14,7 @@ import { PracticasListPage } from './pages/practicas/PracticasListPage';
 import { ControlHorasPage } from './pages/horas/ControlHorasPage';
 import { IncidenciasPage } from './pages/incidencias/IncidenciasPage';
 import { EvaluacionesPage } from './pages/evaluaciones/EvaluacionesPage';
+import { CertificadosPage } from './pages/certificados/CertificadosPage';
 import { NotificacionesPage } from './pages/notificaciones/NotificacionesPage';
 
 export const App: React.FC = () => {
@@ -65,6 +66,14 @@ export const App: React.FC = () => {
 
               {/* Evaluaciones y Certificados */}
               <Route path="/evaluaciones" element={<EvaluacionesPage />} />
+              <Route
+                path="/certificados"
+                element={
+                  <ProtectedRoute allowedRoles={['coordinador']} />
+                }
+              >
+                <Route index element={<CertificadosPage />} />
+              </Route>
 
               {/* Notificaciones */}
               <Route path="/notificaciones" element={<NotificacionesPage />} />

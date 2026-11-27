@@ -38,6 +38,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         { name: 'Panel Coordinación', to: '/dashboard', icon: <Home className="w-4 h-4" /> },
         { name: 'Vacantes', to: '/vacantes', icon: <FileCheck className="w-4 h-4" /> },
         { name: 'Prácticas', to: '/practicas', icon: <GraduationCap className="w-4 h-4" /> },
+        { name: 'Certificados', to: '/certificados', icon: <Award className="w-4 h-4" /> },
         { name: 'Incidencias', to: '/incidencias', icon: <ShieldAlert className="w-4 h-4" /> },
         { name: 'Notificaciones', to: '/notificaciones', icon: <Bell className="w-4 h-4" /> },
       ];
