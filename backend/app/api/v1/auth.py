@@ -6,7 +6,7 @@ from app.api.deps import get_current_user, get_db, require_role
 from app.models import Usuario
 from app.models.enums import Rol
 from app.repositories.usuario_repository import UsuarioRepository
-from app.schemas.auth import CambiarPasswordIn, LoginIn, TokenOut, UsuarioOut
+from app.schemas.auth import CambiarPasswordIn, LoginIn, RegistroEstudianteIn, TokenOut, UsuarioOut
 from app.services.auth_service import AuthService
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -15,6 +15,12 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 @router.post("/login", response_model=TokenOut)
 def login(data: LoginIn, db: Session = Depends(get_db)):
     return AuthService(UsuarioRepository(db)).login(data.email, data.password)
+
+
+@router.post("/registro-estudiante", response_model=TokenOut, status_code=201)
+def registro_estudiante(data: RegistroEstudianteIn, db: Session = Depends(get_db)):
+    """Crea una cuenta de estudiante y devuelve el token (queda con la sesión iniciada)."""
+    return AuthService(UsuarioRepository(db)).registrar_estudiante(data)
 
 
 @router.post("/login-form", response_model=TokenOut, include_in_schema=False)

@@ -54,3 +54,32 @@ def test_cambiar_password(client):
     assert r.status_code == 204
     assert intentar(client, ESTUDIANTE, "Nueva12345").status_code == 200
     assert intentar(client, ESTUDIANTE, PASSWORD).status_code == 401
+
+
+REGISTRO = "/api/v1/auth/registro-estudiante"
+NUEVO = {"nombre": "Luis Mora", "email": "luis@uninorte.edu.co", "password": "Segura123!",
+         "creditos_cursados": 40, "promedio": 3.0, "semestre": 4}
+
+
+def test_registro_estudiante_correcto_y_puede_iniciar_sesion(client):
+    r = client.post(REGISTRO, json=NUEVO)
+    assert r.status_code == 201
+    assert r.json()["rol"] == "estudiante"
+    assert r.json()["nombre"] == "Luis Mora"
+    assert r.json()["access_token"]
+    # El token sirve y el login normal también
+    assert client.get("/api/v1/auth/me", headers={"Authorization": "Bearer " + r.json()["access_token"]}).status_code == 200
+    assert intentar(client, "luis@uninorte.edu.co", "Segura123!").status_code == 200
+
+
+def test_registro_correo_repetido(client):
+    assert client.post(REGISTRO, json={**NUEVO, "email": ESTUDIANTE}).status_code == 409
+    assert client.post(REGISTRO, json=NUEVO).status_code == 201
+    assert client.post(REGISTRO, json=NUEVO).status_code == 409
+
+
+def test_registro_valida_datos(client):
+    assert client.post(REGISTRO, json={**NUEVO, "password": "corta"}).status_code == 422
+    assert client.post(REGISTRO, json={**NUEVO, "promedio": 6}).status_code == 422
+    assert client.post(REGISTRO, json={**NUEVO, "creditos_cursados": -1}).status_code == 422
+    assert client.post(REGISTRO, json={**NUEVO, "email": "no-es-correo"}).status_code == 422

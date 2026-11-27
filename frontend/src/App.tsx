@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
 import { LoginPage } from './pages/auth/LoginPage';
+import { RegistroPage } from './pages/auth/RegistroPage';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { VacantesListPage } from './pages/vacantes/VacantesListPage';
 import { CrearVacantePage } from './pages/vacantes/CrearVacantePage';
@@ -22,6 +23,7 @@ export const App: React.FC = () => {
         <Routes>
           {/* Ruta pública */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/registro" element={<RegistroPage />} />
 
           {/* Rutas protegidas dentro del Layout institucional */}
           <Route element={<ProtectedRoute />}>

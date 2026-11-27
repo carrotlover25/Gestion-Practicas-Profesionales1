@@ -1,7 +1,21 @@
 import { api } from './api';
 import { AuthResponse, Usuario } from '../types';
 
+export interface RegistroEstudiante {
+  nombre: string;
+  email: string;
+  password: string;
+  creditos_cursados: number;
+  promedio: number;
+  semestre: number;
+}
+
 export const authService = {
+  async registrarEstudiante(datos: RegistroEstudiante): Promise<AuthResponse> {
+    const response = await api.post<AuthResponse>('/api/v1/auth/registro-estudiante', datos);
+    return response.data;
+  },
+
   async login(email: string, password: string): Promise<AuthResponse> {
     const response = await api.post<AuthResponse>('/api/v1/auth/login', { email, password });
     return response.data;

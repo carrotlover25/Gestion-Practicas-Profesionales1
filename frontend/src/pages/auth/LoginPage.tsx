@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   GraduationCap,
   Eye,
@@ -136,6 +136,13 @@ export const LoginPage: React.FC = () => {
               Ingresar al Sistema
             </Button>
           </form>
+
+          <p className="mt-5 text-center text-xs text-[#777777]">
+            ¿Eres estudiante y no tienes cuenta?{' '}
+            <Link to="/registro" className="font-semibold text-[#8E712B] hover:underline">
+              Regístrate aquí
+            </Link>
+          </p>
 
           {/* Quick switcher */}
           <div className="mt-8 pt-6 border-t border-[#EAE8E2]">
