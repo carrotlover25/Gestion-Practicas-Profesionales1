@@ -33,3 +33,13 @@ class UsuarioRepository:
     
     def list_bloqueados(self) -> list[Usuario]:
         return list(self.db.scalars(select(Usuario).where(Usuario.bloqueado.is_(True))))
+
+    def crear_estudiante(self, usuario: Usuario, estudiante: Estudiante) -> Usuario:
+        """Guarda usuario y perfil de estudiante en una sola transacción."""
+        self.db.add(usuario)
+        self.db.flush()  # para obtener usuario.id
+        estudiante.usuario_id = usuario.id
+        self.db.add(estudiante)
+        self.db.commit()
+        self.db.refresh(usuario)
+        return usuario
